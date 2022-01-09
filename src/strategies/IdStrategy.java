@@ -6,6 +6,7 @@ import entities.Gift;
 import entities.Simulation;
 import enums.Category;
 import enums.ElvesType;
+import utils.AverageScoreCalculator;
 import utils.Utils;
 
 import java.util.Map;
@@ -20,7 +21,12 @@ public final class IdStrategy implements GenericStrategy {
         Map<Integer, List<Gift>> childrenGifts = new HashMap<>();
 
         for (Child child : simulation.getChildren()) {
-            Double averageScore = Utils.calculateAverage(child);
+            Double averageScore = new AverageScoreCalculator.Builder(child.getNiceScore(),
+                    child.getAge())
+                    .calculateAverageScore()
+                    .setBonusScore(child.getNiceScoreBonus())
+                    .addBonusScore()
+                    .build();
             Double childBudget = averageScore * budgetUnit;
 
             if (child.getElf().equals(ElvesType.BLACK)) {
@@ -28,7 +34,6 @@ public final class IdStrategy implements GenericStrategy {
             } else if (child.getElf().equals(ElvesType.PINK)) {
                 childBudget = childBudget + childBudget * Constants.THIRTY / Constants.HUNDRED;
             }
-
             List<Gift> receivedGifts = new ArrayList<>();
             Double prices = 0.0;
             for (Category preference : child.getGiftPreferences()) {

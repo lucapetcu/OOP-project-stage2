@@ -6,6 +6,7 @@ import entities.Gift;
 import entities.Simulation;
 import enums.Category;
 import enums.ElvesType;
+import utils.AverageScoreCalculator;
 import utils.Utils;
 
 import java.util.List;
@@ -24,8 +25,16 @@ public final class NiceScoreStrategy implements GenericStrategy {
             children.add(new Child(child));
         }
         children.sort((o1, o2) -> {
-            Double average1 = Utils.calculateAverage(o1);
-            Double average2 = Utils.calculateAverage(o2);
+            Double average1 = new AverageScoreCalculator.Builder(o1.getNiceScore(), o1.getAge())
+                    .calculateAverageScore()
+                    .setBonusScore(o1.getNiceScoreBonus())
+                    .addBonusScore()
+                    .build();
+            Double average2 = new AverageScoreCalculator.Builder(o2.getNiceScore(), o2.getAge())
+                    .calculateAverageScore()
+                    .setBonusScore(o2.getNiceScoreBonus())
+                    .addBonusScore()
+                    .build();
             /*Sort by average, then by ID*/
             if (average1.compareTo(average2) != 0) {
                 return -average1.compareTo(average2);
@@ -37,7 +46,12 @@ public final class NiceScoreStrategy implements GenericStrategy {
 
         /*Assigning gifts to the sorted children*/
         for (Child child : children) {
-            Double averageScore = Utils.calculateAverage(child);
+            Double averageScore = new AverageScoreCalculator.Builder(child.getNiceScore(),
+                    child.getAge())
+                    .calculateAverageScore()
+                    .setBonusScore(child.getNiceScoreBonus())
+                    .addBonusScore()
+                    .build();
             Double childBudget = averageScore * budgetUnit;
             if (child.getElf().equals(ElvesType.BLACK)) {
                 childBudget = childBudget - childBudget * Constants.THIRTY / Constants.HUNDRED;

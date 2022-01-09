@@ -7,6 +7,7 @@ import entities.Simulation;
 import enums.Category;
 import enums.Cities;
 import enums.ElvesType;
+import utils.AverageScoreCalculator;
 import utils.Utils;
 
 import java.util.List;
@@ -29,7 +30,11 @@ public final class NiceScoreCityStrategy implements GenericStrategy {
             Double cnt = 0.0;
             for (Child child : simulation.getChildren()) {
                 if (child.getCity().equals(o1)) {
-                    sum1 += Utils.calculateAverage(child);
+                    sum1 += new AverageScoreCalculator.Builder(child.getNiceScore(), child.getAge())
+                            .calculateAverageScore()
+                            .setBonusScore(child.getNiceScoreBonus())
+                            .addBonusScore()
+                            .build();
                     cnt++;
                 }
             }
@@ -38,7 +43,12 @@ public final class NiceScoreCityStrategy implements GenericStrategy {
             Double sum2 = 0.0;
             for (Child child : simulation.getChildren()) {
                 if (child.getCity().equals(o2)) {
-                    sum2 += Utils.calculateAverage(child);
+                    sum2 += new AverageScoreCalculator.Builder(child.getNiceScore(),
+                            child.getAge())
+                            .calculateAverageScore()
+                            .setBonusScore(child.getNiceScoreBonus())
+                            .addBonusScore()
+                            .build();
                     cnt++;
                 }
             }
@@ -52,12 +62,18 @@ public final class NiceScoreCityStrategy implements GenericStrategy {
             String city2 = o2.name();
             return city1.compareTo(city2);
         });
+
         /*Assigning gifts*/
         Map<Integer, List<Gift>> childrenGifts = new HashMap<>();
         for (Cities city : cities) {
             for (Child child : simulation.getChildren()) {
                 if (child.getCity().equals(city)) {
-                    Double averageScore = Utils.calculateAverage(child);
+                    Double averageScore = new AverageScoreCalculator.Builder(child.getNiceScore(),
+                            child.getAge())
+                            .calculateAverageScore()
+                            .setBonusScore(child.getNiceScoreBonus())
+                            .addBonusScore()
+                            .build();
                     Double childBudget = averageScore * budgetUnit;
                     if (child.getElf().equals(ElvesType.BLACK)) {
                         childBudget = childBudget

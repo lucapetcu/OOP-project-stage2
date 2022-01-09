@@ -93,37 +93,6 @@ public final class Utils {
     }
 
     /**
-     * Computes the average score for a child
-     * @param child The child which we need to compute the average for
-     * @return average score
-     */
-    public static Double calculateAverage(final Child child) {
-        if (child.getAge() < Constants.FIVE) {
-            return Constants.TEN;
-        } else if (child.getAge() < Constants.TWELVE) {
-            Double sum = 0.0;
-            Double cnt = 0.0;
-            for (Double d : child.getNiceScore()) {
-                sum += d;
-                cnt++;
-            }
-            Double average = sum / cnt;
-            average += average * child.getNiceScoreBonus() / Constants.HUNDRED;
-            return average > Constants.TEN ? Constants.TEN : average;
-        } else {
-            Double weight = 0.0;
-            Double sum = 0.0;
-            for (int i = 0; i < child.getNiceScore().size(); i++) {
-                weight += (i + 1);
-                sum += (i + 1) * child.getNiceScore().get(i);
-            }
-            Double average = sum / weight;
-            average += average * child.getNiceScoreBonus() / Constants.HUNDRED;
-            return average > Constants.TEN ? Constants.TEN : average;
-        }
-    }
-
-    /**
      * Simulates a round based on the data stored in simulation
      * @param simulation current round data data
      * @return list of children information to be written in the JSON output
@@ -133,12 +102,17 @@ public final class Utils {
         List<Map<String, Object>> currentRound;
         Double averageSum = 0.0;
         for (Child child : simulation.getChildren()) {
-            Double averageScore = Utils.calculateAverage(child);
+            Double averageScore = new AverageScoreCalculator.Builder(child.getNiceScore(),
+                    child.getAge())
+                    .calculateAverageScore()
+                    .setBonusScore(child.getNiceScoreBonus())
+                    .addBonusScore()
+                    .build();
             averageSum += averageScore;
         }
         /* Assigning gifts to the children */
         Double budgetUnit = simulation.getBudget() / averageSum;
-        /* Gift assigning strategy uses factory design pattern */
+        /* Gift assigning strategy uses factory pattern */
         GenericStrategy strategy1 = StrategyFactory.getStrategy(strategy);
         currentRound = strategy1.assignGifts(simulation, budgetUnit);
         return currentRound;
@@ -182,7 +156,12 @@ public final class Utils {
 
         /*Creating the output list*/
         for (Child child : simulation.getChildren()) {
-            Double averageScore = Utils.calculateAverage(child);
+            Double averageScore = new AverageScoreCalculator.Builder(child.getNiceScore(),
+                    child.getAge())
+                    .calculateAverageScore()
+                    .setBonusScore(child.getNiceScoreBonus())
+                    .addBonusScore()
+                    .build();
             Double childBudget = budgetUnit * averageScore;
             if (child.getElf().equals(ElvesType.BLACK)) {
                 childBudget = childBudget - childBudget * Constants.THIRTY / Constants.HUNDRED;
