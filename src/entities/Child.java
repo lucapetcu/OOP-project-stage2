@@ -6,6 +6,7 @@ import enums.Cities;
 import enums.ElvesType;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class Child {
     private int id;
@@ -28,7 +29,7 @@ public final class Child {
         this.age = age;
         this.city = city;
         this.niceScore = niceScore;
-        this.giftPreferences = giftPreferences;
+        this.giftPreferences = giftPreferences.stream().distinct().collect(Collectors.toList());
         this.niceScoreBonus = niceScoreBonus;
         this.elf = elf;
     }
@@ -111,5 +112,9 @@ public final class Child {
 
     public void setElf(final ElvesType elf) {
         this.elf = elf;
+    }
+
+    public void setGiftPreferences(final List<Category> giftPreferences) {
+        this.giftPreferences = giftPreferences;
     }
 }

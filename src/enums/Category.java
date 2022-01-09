@@ -2,6 +2,7 @@ package enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public enum Category {
 
     @JsonProperty("Board Games")
@@ -27,5 +28,4 @@ public enum Category {
     Category(final String value) {
         this.value = value;
     }
-
 }

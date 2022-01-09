@@ -26,6 +26,7 @@ public final class NiceScoreStrategy implements GenericStrategy {
         children.sort((o1, o2) -> {
             Double average1 = Utils.calculateAverage(o1);
             Double average2 = Utils.calculateAverage(o2);
+            /*Sort by average, then by ID*/
             if (average1.compareTo(average2) != 0) {
                 return -average1.compareTo(average2);
             }

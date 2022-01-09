@@ -43,9 +43,11 @@ public final class NiceScoreCityStrategy implements GenericStrategy {
                 }
             }
             Double average2 = sum2 / cnt;
+            /*Sort decreasing by average*/
             if (average1.compareTo(average2) != 0) {
                 return -average1.compareTo(average2);
             }
+            /*If average is the same, then sort lexicographically*/
             String city1 = o1.name();
             String city2 = o2.name();
             return city1.compareTo(city2);
