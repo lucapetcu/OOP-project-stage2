@@ -6,6 +6,7 @@ import entities.Gift;
 import entities.Simulation;
 import enums.Category;
 import enums.Cities;
+import enums.CityStrategyEnum;
 import enums.ElvesType;
 import org.json.simple.JSONArray;
 import strategies.GenericStrategy;
@@ -93,12 +94,26 @@ public final class Utils {
     }
 
     /**
+     * Converts a string into strategy enum
+     * @param strategy string to be converted
+     * @return enum object
+     */
+    public static CityStrategyEnum stringToStrategy(final String strategy) {
+        return switch (strategy) {
+          case "id" -> CityStrategyEnum.ID;
+          case "niceScore" -> CityStrategyEnum.NICE_SCORE;
+          case "niceScoreCity" -> CityStrategyEnum.NICE_SCORE_CITY;
+            default -> null;
+        };
+    }
+
+    /**
      * Simulates a round based on the data stored in simulation
      * @param simulation current round data data
      * @return list of children information to be written in the JSON output
      */
     public static List<Map<String, Object>> simulateRound(final Simulation simulation,
-                                                          final String strategy) {
+                                                          final CityStrategyEnum strategy) {
         List<Map<String, Object>> currentRound;
         Double averageSum = 0.0;
         for (Child child : simulation.getChildren()) {

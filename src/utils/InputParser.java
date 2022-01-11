@@ -6,6 +6,7 @@ import entities.Gift;
 import entities.AnnualChange;
 import entities.Simulation;
 import entities.ChildUpdate;
+import enums.CityStrategyEnum;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -102,8 +103,9 @@ public final class InputParser {
                 for (Object jsonAnnualChange : jsonAnnualChanges) {
                     Double newSantaBudget = Double.parseDouble(((JSONObject) jsonAnnualChange)
                             .get(Constants.NEW_SANTA_BUDGET).toString());
-                    String strategy = (String) ((JSONObject) jsonAnnualChange)
-                            .get(Constants.STRATEGY);
+                    CityStrategyEnum strategy = Utils
+                            .stringToStrategy((String) ((JSONObject) jsonAnnualChange)
+                            .get(Constants.STRATEGY));
                     List<Gift> newGifts = new ArrayList<>();
                     List<Child> newChildren = new ArrayList<>();
                     List<ChildUpdate> childUpdates = new ArrayList<>();

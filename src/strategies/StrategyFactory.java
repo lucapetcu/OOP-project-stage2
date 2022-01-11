@@ -1,5 +1,7 @@
 package strategies;
 
+import enums.CityStrategyEnum;
+
 public final class StrategyFactory {
     private StrategyFactory() {
 
@@ -10,12 +12,11 @@ public final class StrategyFactory {
      * @param strategy string which tells the strategy
      * @return strategy object corresponding to the string
      */
-    public static GenericStrategy getStrategy(final String strategy) {
+    public static GenericStrategy getStrategy(final CityStrategyEnum strategy) {
         return switch (strategy) {
-          case "id" -> new IdStrategy();
-          case "niceScore" -> new NiceScoreStrategy();
-          case "niceScoreCity" -> new NiceScoreCityStrategy();
-          default -> null;
+            case ID -> new IdStrategy();
+            case NICE_SCORE -> new NiceScoreStrategy();
+            case NICE_SCORE_CITY -> new NiceScoreCityStrategy();
         };
     }
 }

@@ -2,6 +2,7 @@ package entities;
 
 
 import common.Constants;
+import enums.CityStrategyEnum;
 import utils.Utils;
 
 import java.util.List;
@@ -15,7 +16,8 @@ public final class ConcreteVisitor implements VisitorInterface {
     public void visit(final Simulation simulation, final List<Map<String, Object>> arrayResult) {
         /* First round simulation */
         simulation.getChildren().removeIf(child -> child.getAge() > Constants.EIGHTEEN);
-        List<Map<String, Object>> childrenList = Utils.simulateRound(simulation, "id");
+        List<Map<String, Object>> childrenList = Utils
+                .simulateRound(simulation, CityStrategyEnum.ID);
         Map<String, Object> firstRound = new LinkedHashMap<>();
         firstRound.put(Constants.CHILDREN, childrenList);
         arrayResult.add(firstRound);
