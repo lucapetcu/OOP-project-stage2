@@ -1,24 +1,3 @@
-//Petcu Luca
-//321CD
 
-Pentru aceasta etapa am preluat implementarea de la prima etapa, la care am
-facut niste modificari. Am modificat clasele Child, Gift, AnnualChange si 
-ChildUpdate pentru a retine tipul de elf, respectiv cantitatea fiecarui cadou.
-Pentru a implementa simularea fiecarei runde am folosit patternul Visitor. 
-Obiectul visitable este simulation, iar obiectul visitor este ConcreteVisitor.
-Apoi, pentru a implementa strategiile de asignare a cadourilor folosesc patternul
-Strategy. Interfata comuna implementata de fiecare strategie este GenericStrategy,
-iar strategiile sunt IdStrategy, ce implementeaza strategia de asignare pe baza id-ului
-copiilor, NiceScoreStrategy, ce implementeaza strategia de asignare in functie de average
-scorul fiecarui copil si NiceScoreCityStrategy, ce implementeaza strategia de asignare in
-functie de average-ul fiecarul oras in care locuieste copilul. La finalul fiecarei runde 
-trebuie sa asignam cadouri copiilor care au elful yellow si sa construiesc lista de output.
-Pentru acestea, mapez id-ul copiilor la lista de cadouri primite in timpul rundei normale. 
-Dupa simularea rundei normale, parcurg din nou copiii si daca au elful yellow si nu au primit
-cadou in timpul rundei normale le asignez un cadou conform cerintei. 
-Pentru a alege strategia dinamic, folosesc patternul Factory. Pentru acesta am clasa StrategyFactory
-cu metoda de tip factory getStrategy ce returneaza o instanta a unei strategii pe baza stringului
-oferit. Deci, pentru implementarea efectiva a simularii rundelor am folosit patternurile Visitor, 
-Strategy si Factory, iar pentru parsarea datelor de intrare am folosit Singleton. 
-Calculul scorului average pentru un copil este realizat cu ajutorul patternului Builder, in clasa
-AverageScoreCalculator. Parametrul bonusScore este cel optional, iar niceScore si age.
+This is the second stage of my OOP project. I extented the functionality of the first stage by adding
+other design patterns, such as Strategy, Builder and Factory. 
